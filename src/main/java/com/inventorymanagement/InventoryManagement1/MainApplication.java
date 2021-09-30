@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import org.json.*;
 import org.json.simple.JSONArray;
@@ -14,49 +16,39 @@ import org.json.JSONObject;
 import org.json.simple.parser.*;
 
 public class MainApplication {
+	static List myfoodlist = new ArrayList();
+	static JSONArray foodstockArray = new JSONArray();
+	static JSONObject jsonobject = new JSONObject();
+	static Scanner sc = new Scanner(System.in);
+
 	public static void main(String[] arg) {
-		// JSONParser jsonparser = new JSONParser();
-		// try {
-		/// FileReader reader = new
-		// FileReader("D:/InventoryManagement1/src/main/java/com/inventorymanagement/InventoryManagement1/example.json");
-		// } catch (FileNotFoundException e1) {
-		// // TODO Auto-generated catch block
-		// e1.printStackTrace();
-		// }
+
+		MainApplication.add();
+
+	}
+
+	public static void add() {
 		JSONObject rice = new JSONObject();
+
 		rice.put("Name", "Rice");
 		rice.put("Weight", 10);
 		rice.put("Price", 100);
-		JSONObject riceobject = new JSONObject();
-		riceobject.put("food", rice);
+		JSONArray riceArray = new JSONArray();
+		riceArray.add(rice);
+		jsonobject.put("food", riceArray);
+		foodstockArray.add(jsonobject);
+		myfoodlist.add(jsonobject);
 
-		JSONObject wheat = new JSONObject();
-		wheat.put("Name", "Wheat");
-		wheat.put("Weight", 20);
-		wheat.put("Price", 200);
-		JSONObject wheatobject = new JSONObject();
-		wheatobject.put("food", wheat);
-
-		JSONObject pulse = new JSONObject();
-		pulse.put("Name", "Pulse");
-		pulse.put("Weight", 30);
-		pulse.put("Price", 300);
-		JSONObject pulseobject = new JSONObject();
-		pulseobject.put("food", pulse);
-
-	//	ArrayList foodstocklist = new ArrayList();
-		JSONArray foodstocklist= new JSONArray();
-		foodstocklist.add(riceobject);
-		foodstocklist.add(wheatobject);
-		foodstocklist.add(pulseobject);
 		try {
-			FileWriter file = new FileWriter(
-					"D:/InventoryManagement1/src/main/java/com/inventorymanagement/InventoryManagement1/foodinventory.json");
-			file.write(foodstocklist.toJSONString());
+			FileWriter file = new FileWriter(System.getProperty("user.dir") + "//foodstock.json");
+			file.write(foodstockArray.toJSONString());
+			file.flush();
 			file.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.print(foodstocklist);
+		System.out.println(System.getProperty("user.dir"));
+		System.out.print(foodstockArray);
+		System.out.print(myfoodlist);
 	}
 }
