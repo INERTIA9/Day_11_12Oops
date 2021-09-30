@@ -4,42 +4,23 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.json.simple.JSONArray;
+import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.simple.parser.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class ReadJsonFile {
-	public static void main(String[] arg) {
-		JSONParser parser = new JSONParser();
+	public static void main(String[] argd) throws IOException, ParseException {
+		JSONParser jsonparser = new JSONParser();
+		FileReader reader = new FileReader(System.getProperty("user.dir") + "//foodstock.json");
 
-		try (FileReader reader = new FileReader(
-				"D:/InventoryManagement1/src/main/java/com/inventorymanagement/InventoryManagement1/foodinventory.json")) {
-			Object obj = parser.parse(reader);
-			JSONArray foodstocklist = (JSONArray) obj;
-			System.out.println(foodstocklist);
-			// using iterator
-			foodstocklist.forEach(foods -> parseFoodObj((JSONObject) foods));
-		}
+		Object obj = jsonparser.parse(reader);
 
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-
-		}
 	}
 
-	private static void parseFoodObj(JSONObject foods) {
-		JSONObject foodsobj = (JSONObject) foods.getJSONObject("food");
-		// get foodname
-		String name = (String) foodsobj.get("Name");
-		int price = (int) foodsobj.get("Price");
-		int weight = (int) foodsobj.get("Weight");
-		System.out.println("Name :" + name);
-		System.out.println("Price:" + price);
-		System.out.println("Weight :" + weight);
+	public static void parse(JSONObject food) {
+		JSONObject foodobject = (JSONObject) food.get("Name");
+		String foodname = (String) food.getString("Name");
+		System.out.println("Nmae:" + foodname);
 	}
 }
